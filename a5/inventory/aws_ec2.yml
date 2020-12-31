@@ -1,0 +1,11 @@
+---
+plugin: aws_ec2
+# Pass aws access key or secret here 
+# Added for simplicity, ideally be set as an environment variable
+aws_access_key: <YOUR-AWS-ACCESS-KEY-HERE>
+aws_secret_key: <YOUR-AWS-SECRET-KEY-HERE>
+keyed_groups:
+    - key: tags
+      prefix: tag
+filters:
+    tag:Name: test-asg

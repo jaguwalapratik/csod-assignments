@@ -1,0 +1,27 @@
+pipeline {
+    agent {
+        node {
+            label 'master'
+        }
+    }
+
+    parameters {
+        string(name: 'DBInstanceIdentifier', defaultValue: 'default', description: 'Identifier of existing database instance.')
+        string(name: 'InstanceType', defaultValue: 'db.t3.micro', description: 'Instance type to apply existing database instance.')
+    }
+
+    environment {
+        AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+    }
+
+    stages {
+        stage('ModifyDBInstance') {
+            steps {
+                dir('a4') {
+                    powershell "./modify-db-instance.ps1 -DBInstanceIdentifier ${DBInstanceIdentifier} -InstanceType ${InstanceType}"
+                }
+            }
+        }
+    }
+} 

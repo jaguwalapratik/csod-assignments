@@ -1,0 +1,89 @@
+pipeline {
+    agent {
+        node {
+            label 'master'
+        }
+    }
+    
+    parameters {
+        booleanParam(name: 'Destroy', defaultValue: false, description: 'Do you want to destroy infrastructure?')
+        booleanParam(name: 'AutoApprove', defaultValue: false, description: 'Execute terraform apply without reviewing plan?')
+    }
+    
+    environment {
+        AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+    }
+    
+    stages {
+        stage('Caution') {
+            when {
+                equals expected: true, actual: params.Destroy
+            }
+
+            steps {
+                script {
+                    input message: "Are you sure you want to destroy the infrastructure?"
+                }
+            }
+        }
+        
+        stage('Plan') {
+            steps {
+                dir('a3') {
+                    script {
+                        if(destroy == "true") {
+                            powershell(script:''' 
+                                terraform init -input=false
+                                terraform plan -input=false -destroy -out tfplan
+                                terraform show -no-color tfplan > plan.txt
+                            ''')
+                        } else {
+                            powershell(script:''' 
+                                terraform init -input=false
+                                terraform plan -input=false -out tfplan
+                                terraform show -no-color tfplan > plan.txt
+                            ''')
+                        }
+                    }
+                }
+            }
+        }
+        
+        stage('Approval') {
+            when {
+                not {
+                    equals expected: true, actual: params.AutoApprove
+                }
+            }
+
+            steps {
+                dir('a3') {
+                    script {
+                        def plan = readFile 'plan.txt'
+                            input message: "Do you want to apply the plan?",
+                            parameters: [text(name: 'Plan', description: 'Please review the plan', defaultValue: plan)]
+                    }
+                }
+            }
+        }
+        
+        stage('Apply') {
+            steps {
+                dir('a3') {
+                    script {
+                        if(destroy == "true") {
+                            powershell(script:''' 
+                                terraform destroy --auto-approve
+                            ''')
+                        } else {
+                            powershell(script:''' 
+                            terraform apply -input=false tfplan
+                            ''')
+                        }
+                    }
+                }
+            }
+        }
+    }
+} 

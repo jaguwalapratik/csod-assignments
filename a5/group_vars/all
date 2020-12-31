@@ -1,0 +1,6 @@
+ansible_user: Administrator
+#Password of your ec2 instance
+ansible_password: <ec2-instance-password>
+ansible_port: 5986
+ansible_connection: winrm
+ansible_winrm_server_cert_validation: ignore

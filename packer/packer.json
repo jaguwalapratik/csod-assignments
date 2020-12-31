@@ -1,0 +1,46 @@
+{
+    "variables": {
+        "aws_access_key": "{{env `AWS_ACCESS_KEY`}}",
+        "aws_secret_key": "{{env `AWS_SECRET_KEY`}}",
+        "region": "us-west-2"
+    },
+    "builders": [
+        {
+            "type": "amazon-ebs",
+            "access_key": "{{user `aws_access_key`}}",
+            "secret_key": "{{user `aws_secret_key`}}",
+            "region": "{{user `region`}}",
+            "source_ami" : "ami-07280e820068b6fff",
+            "instance_type": "t2.micro",
+            "communicator": "winrm",
+            "winrm_username": "Administrator",
+            "winrm_port": 5986,
+            "winrm_timeout": "15m",
+            "winrm_use_ssl": true,
+            "winrm_insecure": true,
+            "ami_name": "Win2016IISRoleWithFTP",
+            "user_data_file": "./scripts/userdata.ps1"
+        }
+    ],
+    "provisioners": [
+        {
+             "type": "powershell",
+             "script": "scripts/setup.ps1"
+        },
+        {
+            "type": "powershell",
+            "script": "scripts/install-hosting-bundle.ps1"
+        },
+        {
+            "type": "windows-restart",
+            "restart_check_command": "powershell -command \"&amp; {Write-Output 'Machine restarted.'}\""
+        },
+        {
+            "type": "powershell",
+            "inline": [
+                "C:/ProgramData/Amazon/EC2-Windows/Launch/Scripts/InitializeInstance.ps1 -Schedule",
+                "C:/ProgramData/Amazon/EC2-Windows/Launch/Scripts/SysprepInstance.ps1 -NoShutdown"
+            ]
+        }
+    ]
+}

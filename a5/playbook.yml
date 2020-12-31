@@ -1,0 +1,72 @@
+- name: "Ansible Deployment"
+  hosts: tag_Name_test_asg
+  
+  vars:
+      website_path: "c:\\inetpub\\wwwroot\\simplewebapp"
+      artifacts_path: "c:\\artifacts"
+      
+  tasks:
+  
+    - name: Test connection
+      win_ping:
+  
+    - name: Create directory for artifacts
+      win_file: path={{ artifacts_path }} state=directory
+      
+    - name: Copy bundle to wwwroot
+      win_copy:
+        src: bundle.zip
+        dest: "{{ artifacts_path }}\\bundle.zip"
+        force: yes
+        
+    - name: Stop an application pool
+      win_iis_webapppool:
+        name: DefaultAppPool
+        state: stopped
+        
+    - name: Stop the website
+      win_iis_website:
+        name: "SimpleWebApp"
+        state: absent
+    
+    - name: Unzip file
+      win_unzip:
+        src: "{{ artifacts_path }}\\bundle.zip"
+        dest: "{{ website_path }}"
+        delete_archive: yes
+
+    - name: Remove Default Web Site
+      win_iis_website:
+        name: "Default Web Site"
+        state: absent
+        
+    - name: Start website
+      win_iis_website:
+        name: "SimpleWebApp"
+        state: started
+        port: 80
+        physical_path: "{{ website_path }}"
+    
+    - name: Start an application pool
+      win_iis_webapppool:
+        name: DefaultAppPool
+        state: started
+
+    - name: "Wait for application endpoint is healthy and reachable"
+      uri:
+        url: "http://localhost/api/tasks"
+        status_code: 200
+        method: GET
+      register: result
+      until: result.status == 200
+      retries: 60
+      delay: 5
+    
+  #- name: Check database status
+  # mysql_info:
+  # login_host: db.testcsod.internal
+  #login_user: admin
+  #login_password: zAR5mAVlN9OeVfIKtbOY
+  #login_port: 3306
+  #login_db: csoddb
+
