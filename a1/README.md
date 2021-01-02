@@ -10,6 +10,8 @@
 
 ### Using WintellectPowerShell module
 
+Under the hood WintellectPowerShell module uses cdb.exe. It is command line utility of WinDbg
+
 ```
 PS> Get-ChildItem -Path <Path to dump file> -Filter *.dmp -Recurse | Get-DumpAnalysis -DebuggingScript .BasicAnalysis.txt
 ```
@@ -21,6 +23,14 @@ Configure enviroment variable to the path of WinDbg installation bin directory.
 ```
 PS> cbd -z "dump_file.dmp" -c "!threads;!runaway;q" > log.log 
 ```
+
+#### Steps
+
+- Generate dump of any process using ProcDump
+- Run scraper.ps1 by passing dump file name as an argument
+- Script will generate human readable log file which our script parse to find long running threads by text scraping and pattern matching.
+
+![alt Long Running Thread](https://github.com/jaguwalapratik/csod-assignments/tree/master/a1/long-running-thread.png)
 
 ##### Listing all threads and how long they have been running
 
