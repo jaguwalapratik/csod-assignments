@@ -24,3 +24,5 @@ Ansible script to validate application health after deployment (Web and SQL)
 - Used ec2 dynamic inventory to retrieve hosts by tags
 - Playbook will deploy dontet core application to filter hosts via dynamic inventory
 - Will perform application healtcheck to specific endpoint after deployment.
+
+**Note:** Playbook does not implement Rolling Update.
