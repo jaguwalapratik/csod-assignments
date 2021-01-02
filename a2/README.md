@@ -1,4 +1,4 @@
-### Assumption:
+### Pre-requisite:
 
 - Default VPC with 2 public subnet and 2 private subnet
 - Default security group
