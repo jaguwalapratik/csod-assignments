@@ -1,0 +1,6 @@
+* Run !analyze
+!analyze v
+* Listing all threads and how long they have been running
+!runaway
+* Listing Managed Threads
+!threads
