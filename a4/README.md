@@ -1,6 +1,6 @@
-### Assumption:
+### Pre-requisite:
 
-We have an AWS MySql RDS already setup (Single-AZ) for cost concern
+An AWS MySql RDS already setup Single-AZ/Multi-Az
 
 ----
 
