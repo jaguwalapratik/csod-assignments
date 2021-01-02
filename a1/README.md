@@ -27,7 +27,7 @@ PS> cbd -z "dump_file.dmp" -c "!threads;!runaway;q" > log.log
 - Run scraper.ps1 by passing dump file name as an argument
 - Script will generate human readable log file which our script parse to find long running threads by text scraping and pattern matching.
 
-![alt Long Running Thread](https://github.com/jaguwalapratik/csod-assignments/tree/master/a1/long-running-thread.png)
+![alt Long Running Thread](https://github.com/jaguwalapratik/csod-assignments/blob/master/a1/long-running-thread.png)
 
 ##### Listing all threads and how long they have been running
 
