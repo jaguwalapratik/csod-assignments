@@ -1,4 +1,4 @@
-### Pre-requisit:
+### Pre-requisite:
 
 - Ansible requires vm or physical server with linux operating system as control node
 - Ansible uses WinRM to connect windows instance so we need pywinrm package installed on control node.
