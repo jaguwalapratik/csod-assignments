@@ -3,7 +3,7 @@
 - Ansible requires vm or physical server with linux operating system as control node
 - Ansible uses WinRM to connect windows instance so we need pywinrm package installed on control node.
 
-### Setup following on Control Node
+### Setup/install following packages on Control Node
 
 sudo yum install ansible
 
@@ -23,4 +23,4 @@ Ansible script to validate application health after deployment (Web and SQL)
 
 - Used dynamic inventory to retrieve instances by tags
 - Playbook will deploy dontet core application to filter hosts via dynamic inventory
-- It will perform healtcheck
+- Will perform application healtcheck to specific endpoint after deployment.
