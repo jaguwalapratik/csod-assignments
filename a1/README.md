@@ -3,10 +3,7 @@
 - Install WinDbg tool from above link
 - Install WintellectPowerShell
 
-### To generated memory dump of the process
-
-- ProcDump tool
-- Can generate dump using task manager
+### To generate memory dump of the process have used ProcDump tool
 
 ### Using WintellectPowerShell module
 

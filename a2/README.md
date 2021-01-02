@@ -1,4 +1,4 @@
-### Assumption:
+### Pre-requisite:
 
 - Default VPC with 2 public subnet and 2 private subnet
 - Default security group
@@ -33,15 +33,17 @@
 
 ### Implementation Details:
 
-**ScheduledLambdaForMonitoring** will fetch the website url for mysql database table. It will invoke 
-the **WebsiteMonitor** lambda by passing the respective url which will perform the health check and
+**[SetupTableWithDummyRecords](https://github.com/jaguwalapratik/csod-assignments/tree/master/a2/app)** will setup table in database with dummy records.
+
+**[ScheduledLambdaForMonitoring](https://github.com/jaguwalapratik/csod-assignments/tree/master/a2/parent)** will fetch the website url for mysql database table. It will invoke 
+the **[WebsiteMonitor](https://github.com/jaguwalapratik/csod-assignments/tree/master/a2/child)** lambda by passing the respective url which will perform the health check and
 return the status of health check to parent lambda function.
 
 We can combine both the lambda into one which will reduce the invocation time. Having standalone lambda
 for health monitoring provides other approach.
 
-**WebsiteMonitor** lambda also record metric in CloudWatch. We can create an alarm in AWS CloudWatch 
-based on this custom metric and configure AWS SNS Topic to send out notification to subscribers.
+**[WebsiteMonitor](https://github.com/jaguwalapratik/csod-assignments/tree/master/a2/child)** lambda also record metric in CloudWatch. **We can create an alarm in AWS CloudWatch 
+based on this custom metric and configure AWS SNS Topic to send out notification to subscribers.**
 
 ### Limitations
 
