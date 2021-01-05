@@ -1,7 +1,7 @@
 # [WinDbg Tool](https://developer.microsoft.com/windows/downloads/windows-10-sdk)
 
 - Install WinDbg tool from above link
-- Install WintellectPowerShell
+- Install WintellectPowerShell Module
 
 ### To generate memory dump of the process have used ProcDump tool
 
@@ -55,7 +55,7 @@ PS> cbd -z "dump_file.dmp" -c "!threads;!runaway;q" > log.log
 
 !dumpobj [address]
 
-Refrence: 
+Reference: 
 
 - https://www.wintellect.com/automating-analyzing-tons-of-minidump-files-with-windbg-and-powershell/
 - https://www.leeholmes.com/blog/2009/01/21/scripting-windbg-with-powershell/
