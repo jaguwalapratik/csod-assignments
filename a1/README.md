@@ -1,7 +1,7 @@
-# [WinDbg Tool](https://developer.microsoft.com/windows/downloads/windows-10-sdk)
+## Pre-requisite
 
-- Install WinDbg tool from above link
-- Install WintellectPowerShell Module
+- Install [WinDbg tool](https://developer.microsoft.com/windows/downloads/windows-10-sdk)
+- Install [WintellectPowerShell](https://github.com/Wintellect/WintellectPowerShell) Module
 
 ### To generate memory dump of the process have used ProcDump tool
 
